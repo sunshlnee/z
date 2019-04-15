@@ -1,0 +1,377 @@
+-- MySQL dump 10.15  Distrib 10.0.38-MariaDB, for debian-linux-gnu (x86_64)
+--
+-- Host: localhost    Database: poligon
+-- ------------------------------------------------------
+-- Server version	10.0.38-MariaDB-0ubuntu0.16.04.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `brands`
+--
+
+DROP TABLE IF EXISTS `brands`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `brands` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `brands`
+--
+
+LOCK TABLES `brands` WRITE;
+/*!40000 ALTER TABLE `brands` DISABLE KEYS */;
+/*!40000 ALTER TABLE `brands` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `card`
+--
+
+DROP TABLE IF EXISTS `card`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `card` (
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `size_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `card`
+--
+
+LOCK TABLES `card` WRITE;
+/*!40000 ALTER TABLE `card` DISABLE KEYS */;
+INSERT INTO `card` VALUES (8,1,1,1),(8,1,2,2),(3,1,1,1),(3,208,1,1),(3,2,2,2),(3,2,1,2);
+/*!40000 ALTER TABLE `card` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `categories`
+--
+
+DROP TABLE IF EXISTS `categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `categories` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `_lft` int(10) unsigned NOT NULL DEFAULT '0',
+  `_rgt` int(10) unsigned NOT NULL DEFAULT '0',
+  `parent_id` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `categories__lft__rgt_parent_id_index` (`_lft`,`_rgt`,`parent_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `categories`
+--
+
+LOCK TABLES `categories` WRITE;
+/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT INTO `categories` VALUES (1,'TRysi','trysi',1,4,NULL),(2,'Tonkie','tonkie',2,3,1),(3,'dfgdfg','dfgdfg',5,6,NULL);
+/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `color_product`
+--
+
+DROP TABLE IF EXISTS `color_product`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `color_product` (
+  `color_id` int(10) unsigned NOT NULL,
+  `product_id` int(10) unsigned NOT NULL,
+  KEY `color_product_color_id_foreign` (`color_id`),
+  KEY `color_product_product_id_foreign` (`product_id`),
+  CONSTRAINT `color_product_color_id_foreign` FOREIGN KEY (`color_id`) REFERENCES `colors` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `color_product_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `color_product`
+--
+
+LOCK TABLES `color_product` WRITE;
+/*!40000 ALTER TABLE `color_product` DISABLE KEYS */;
+/*!40000 ALTER TABLE `color_product` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `colors`
+--
+
+DROP TABLE IF EXISTS `colors`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `colors` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `colors`
+--
+
+LOCK TABLES `colors` WRITE;
+/*!40000 ALTER TABLE `colors` DISABLE KEYS */;
+/*!40000 ALTER TABLE `colors` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `fabric_product`
+--
+
+DROP TABLE IF EXISTS `fabric_product`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `fabric_product` (
+  `fabric_id` int(10) unsigned NOT NULL,
+  `product_id` int(10) unsigned NOT NULL,
+  KEY `fabric_product_fabric_id_foreign` (`fabric_id`),
+  KEY `fabric_product_product_id_foreign` (`product_id`),
+  CONSTRAINT `fabric_product_fabric_id_foreign` FOREIGN KEY (`fabric_id`) REFERENCES `fabrics` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fabric_product_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `fabric_product`
+--
+
+LOCK TABLES `fabric_product` WRITE;
+/*!40000 ALTER TABLE `fabric_product` DISABLE KEYS */;
+/*!40000 ALTER TABLE `fabric_product` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `fabrics`
+--
+
+DROP TABLE IF EXISTS `fabrics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `fabrics` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `fabrics`
+--
+
+LOCK TABLES `fabrics` WRITE;
+/*!40000 ALTER TABLE `fabrics` DISABLE KEYS */;
+/*!40000 ALTER TABLE `fabrics` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `migrations`
+--
+
+DROP TABLE IF EXISTS `migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `migrations` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `migrations`
+--
+
+LOCK TABLES `migrations` WRITE;
+/*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
+INSERT INTO `migrations` VALUES (7,'2019_01_27_184652_create_card_table',1),(8,'2019_01_27_190653_create_products_table',1),(9,'2019_01_27_190705_create_categories_table',1),(10,'2019_01_27_190813_create_sizes_table',1),(11,'2019_01_27_190829_create_colors_table',1),(12,'2019_01_27_191418_create_fabrics_table',1),(13,'2019_01_27_191518_create_users_table',1),(14,'2019_01_27_191739_create_brands_table',1),(15,'2019_01_27_192033_create_product_photos_table',1),(16,'2019_01_27_192616_create_fabric_product_table',1),(17,'2019_01_27_192637_create_size_product_table',1),(18,'2019_01_27_195724_create_color_product_table',1),(19,'2019_01_27_202026_add_foreings',1);
+/*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `product_photos`
+--
+
+DROP TABLE IF EXISTS `product_photos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_photos` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `src` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `product_photos`
+--
+
+LOCK TABLES `product_photos` WRITE;
+/*!40000 ALTER TABLE `product_photos` DISABLE KEYS */;
+INSERT INTO `product_photos` VALUES (1,1,'yzpcdCPiN62yvm3Uo7C6.jpeg'),(2,1,'dWEnweM2iIwnaOkkHL4n.jpeg'),(3,1,'qclyJB6b7VEp32zZYflL.jpeg'),(4,1,'NpanCrKtbFOhpmoMhsHv.png'),(5,1,'sHEURe9ibgV11cKmrN2B.png'),(6,1,'ZVikzPBVMGSCE5f88hMx.jpeg'),(7,1,'l7OAk8W1bxj75lHhkV9E.jpeg'),(8,1,'1gYuooXBCnYDN1mEql6r.jpeg'),(9,1,'dhuxyaTneV08z3L53p77.jpeg'),(13,208,'d8db9pH26h1UUpcBu5U5.png'),(14,208,'Cck4CK8J3y5f6PmV03WO.png'),(15,208,'KH4id9rTeE0880YTsgG3.png'),(22,209,'uCjV2qHaQheN9fl309Dr.png'),(23,209,'txbIPstkTmWjzlfz7jZF.png'),(24,209,'nD8qSNxsjVOVa3T6WaoF.png');
+/*!40000 ALTER TABLE `product_photos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `products`
+--
+
+DROP TABLE IF EXISTS `products`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `products` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `views` int(11) NOT NULL DEFAULT '0',
+  `price` smallint(5) unsigned DEFAULT NULL,
+  `recommended` tinyint(4) DEFAULT '0',
+  `category_id` int(10) unsigned DEFAULT NULL,
+  `brand_id` int(10) unsigned DEFAULT NULL,
+  `preview` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `products_category_id_foreign` (`category_id`),
+  KEY `products_brand_id_foreign` (`brand_id`),
+  CONSTRAINT `products_brand_id_foreign` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `products_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=210 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `products`
+--
+
+LOCK TABLES `products` WRITE;
+/*!40000 ALTER TABLE `products` DISABLE KEYS */;
+INSERT INTO `products` VALUES (2,'trysi-435345','435345',0,345,1,1,NULL,NULL,'2019-03-19 10:50:54','2019-03-19 10:50:56'),(3,'molestiae7','7',447140901,NULL,0,2,NULL,NULL,'2019-03-19 11:08:04','2019-03-19 11:08:04'),(4,'dolores636','636',8965579,NULL,0,1,NULL,NULL,'2019-03-19 11:08:04','2019-03-19 11:08:04'),(5,'quaerat821535221','821535221',4755,NULL,0,1,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(6,'ullam619020751','619020751',4,NULL,1,1,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(7,'vel552872069','552872069',73,NULL,1,1,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(8,'vitae473','473',273340,NULL,0,1,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(9,'hic87863694','87863694',91664,NULL,0,1,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(10,'dolorem1869','1869',3064,NULL,0,1,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(11,'ea561','561',5,NULL,0,2,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(12,'assumenda13924305','13924305',771165,NULL,1,1,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(13,'ut617104','617104',0,NULL,0,2,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(14,'ipsum132048','132048',745274,NULL,0,1,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(15,'aliquid8169','8169',974294436,NULL,1,1,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(16,'nihil386','386',748308,NULL,1,2,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(17,'repellendus2465703','2465703',7,NULL,0,1,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(18,'rerum70684','70684',36632,NULL,1,1,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(19,'sunt618','618',36517414,NULL,0,2,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(20,'dignissimos63669','63669',732,NULL,1,1,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(21,'recusandae76759','76759',89306245,NULL,0,2,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(22,'alias66','66',7542137,NULL,0,1,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(23,'dolorem240','240',35098477,NULL,0,2,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(24,'adipisci63791','63791',30397685,NULL,1,2,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(25,'quod66801674','66801674',699327,NULL,1,1,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(26,'harum31512445','31512445',500711503,NULL,0,2,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(27,'aspernatur5898','5898',89,NULL,1,2,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(28,'vel913540','913540',9338446,NULL,0,1,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(29,'dignissimos6489','6489',236525,NULL,1,2,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(30,'deserunt22','22',4265,NULL,1,2,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(31,'omnis61','61',644694337,NULL,0,1,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(32,'quia2930','2930',491,NULL,0,2,NULL,NULL,'2019-03-19 11:08:05','2019-03-19 11:08:05'),(33,'qui4680','4680',8820,NULL,1,1,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(34,'debitis20486794','20486794',264597218,NULL,0,1,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(35,'autem57683','57683',794219564,NULL,0,1,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(36,'aut937988','937988',37760539,NULL,1,1,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(37,'qui795147211','795147211',221,NULL,0,2,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(38,'quis8','8',113,NULL,0,2,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(39,'illum76092','76092',82110,NULL,1,2,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(40,'enim99809543','99809543',69827,NULL,0,2,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(41,'saepe160','160',9590,NULL,0,1,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(42,'aut824865','824865',93226,NULL,0,2,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(43,'quo187764','187764',293031421,NULL,0,1,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(44,'ex670602','670602',688718,NULL,1,1,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(45,'est137143','137143',46,NULL,1,1,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(46,'laudantium8891','8891',598660,NULL,1,2,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(47,'et48','48',97776559,NULL,1,1,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(48,'ut364','364',5,NULL,1,2,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(49,'aut4','4',1245830,NULL,0,2,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(50,'possimus2262111','2262111',982739224,NULL,1,2,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(51,'consequuntur8','8',845211747,NULL,0,2,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(52,'aut3','3',2,NULL,0,2,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(53,'nisi70548040','70548040',976,NULL,1,2,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(54,'quam4157','4157',324,NULL,0,1,NULL,NULL,'2019-03-19 11:08:06','2019-03-19 11:08:06'),(55,'officiis9793508','9793508',55353388,NULL,0,2,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(56,'id7814','7814',3049096,NULL,0,2,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(57,'qui856','856',229,NULL,0,1,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(58,'perferendis9727106','9727106',37396501,NULL,0,1,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(59,'odit8288','8288',561,NULL,1,1,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(60,'ab47247379','47247379',4830572,NULL,0,1,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(61,'et264163','264163',84274,NULL,0,1,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(62,'corrupti824249114','824249114',772124,NULL,0,1,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(63,'harum456','456',18,NULL,0,1,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(64,'vel5','5',339601,NULL,1,2,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(65,'possimus40294','40294',5722,NULL,1,1,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(66,'voluptate64','64',95528726,NULL,0,2,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(67,'impedit12932238','12932238',8113,NULL,0,2,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(68,'ducimus207686','207686',40576825,NULL,0,1,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(69,'aut7394','7394',1532493,NULL,0,2,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(70,'commodi41001105','41001105',5508967,NULL,0,2,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(71,'cumque7','7',81,NULL,0,2,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(72,'quia56018','56018',81071781,NULL,0,1,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(73,'tempora1','1',57606,NULL,1,2,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(74,'voluptate44','44',7895,NULL,1,2,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(75,'ea50','50',4330292,NULL,0,2,NULL,NULL,'2019-03-19 11:08:07','2019-03-19 11:08:07'),(76,'voluptatem10282','10282',61973,NULL,0,2,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(77,'autem4478419','4478419',48653803,NULL,0,2,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(78,'error677808127','677808127',896,NULL,0,1,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(79,'quo93','93',75,NULL,0,2,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(80,'qui0','0',32596,NULL,1,1,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(81,'harum6102532','6102532',99405,NULL,1,2,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(82,'eos0','0',1320260,NULL,0,1,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(83,'explicabo303','303',7,NULL,1,2,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(84,'nesciunt4315','4315',219001,NULL,1,1,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(85,'mollitia835','835',91849714,NULL,1,2,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(86,'earum961','961',4316058,NULL,0,1,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(87,'qui153494010','153494010',7821443,NULL,0,1,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(88,'voluptate213','213',81,NULL,0,2,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(89,'et62834221','62834221',58,NULL,1,1,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(90,'voluptas70302874','70302874',7,NULL,1,1,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(91,'rerum7344','7344',5262,NULL,1,2,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(92,'soluta55474271','55474271',26152910,NULL,1,2,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(93,'cupiditate697617817','697617817',4475706,NULL,0,1,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(94,'pariatur20','20',3414,NULL,0,1,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(95,'nemo25992222','25992222',85,NULL,1,1,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(96,'ut40','40',90710,NULL,0,2,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(97,'tenetur44370568','44370568',9,NULL,1,1,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(98,'assumenda53887','53887',77,NULL,1,2,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(99,'in383686','383686',9,NULL,1,2,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(100,'inventore926132240','926132240',160831688,NULL,1,1,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(101,'numquam2893','2893',6,NULL,1,1,NULL,NULL,'2019-03-19 11:08:08','2019-03-19 11:08:08'),(102,'non847565','847565',246,NULL,1,2,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(103,'fugit7595728','7595728',42728105,NULL,1,2,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(104,'iste8627092','8627092',4,NULL,0,2,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(105,'recusandae39','39',153114779,NULL,0,1,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(106,'voluptatem52833','52833',180,NULL,0,2,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(107,'voluptate2608','2608',99947297,NULL,1,1,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(108,'delectus136266','136266',925638213,NULL,0,1,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(109,'molestiae94283','94283',84494235,NULL,1,2,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(110,'autem305992','305992',77089825,NULL,1,2,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(111,'atque99','99',9511039,NULL,1,2,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(112,'nulla979635','979635',53141,NULL,1,1,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(113,'modi76779884','76779884',2,NULL,0,2,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(114,'harum3666','3666',50,NULL,0,2,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(115,'laborum14094634','14094634',1947457,NULL,0,1,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(116,'velit262','262',63774258,NULL,1,2,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(117,'laudantium57','57',560485188,NULL,0,2,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(118,'aut5502599','5502599',477722,NULL,0,2,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(119,'quos3','3',797,NULL,1,2,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(120,'nihil2324263','2324263',339203,NULL,1,1,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(121,'nihil13025002','13025002',9,NULL,0,2,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(122,'dolore836','836',4301024,NULL,1,1,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(123,'ipsam2681479','2681479',992636,NULL,0,1,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(124,'quia147','147',846796053,NULL,1,1,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(125,'aspernatur97342466','97342466',96,NULL,0,2,NULL,NULL,'2019-03-19 11:08:09','2019-03-19 11:08:09'),(126,'sit5244182','5244182',469,NULL,0,1,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(127,'deserunt1330760','1330760',26660947,NULL,0,1,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(128,'laudantium231653854','231653854',34,NULL,1,1,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(129,'rerum78','78',26852428,NULL,1,2,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(130,'eum368451','368451',1852216,NULL,1,2,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(131,'tenetur9','9',1940,NULL,0,1,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(132,'dolore287355190','287355190',82566,NULL,0,1,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(133,'nesciunt5190','5190',58,NULL,1,2,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(134,'aspernatur374','374',6611235,NULL,0,2,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(135,'velit657734','657734',918041,NULL,0,2,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(136,'dolores5679226','5679226',692997328,NULL,1,1,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(137,'quasi426','426',24,NULL,0,1,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(138,'nulla22','22',584,NULL,0,1,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(139,'et89671529','89671529',65869323,NULL,0,2,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(140,'voluptas6','6',47,NULL,1,1,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(141,'ipsa4','4',48559884,NULL,0,2,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(142,'et68522663','68522663',0,NULL,0,2,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(143,'numquam126861','126861',696,NULL,0,2,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(144,'rerum382857','382857',6895,NULL,0,2,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(145,'facere46794476','46794476',51463676,NULL,1,1,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(146,'nemo984','984',345407,NULL,1,1,NULL,NULL,'2019-03-19 11:08:10','2019-03-19 11:08:10'),(147,'unde8589','8589',4203,NULL,0,2,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(148,'sit12350','12350',4,NULL,0,1,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(149,'non531542','531542',788,NULL,1,2,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(150,'consequatur7546','7546',24723,NULL,1,2,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(151,'sed87483114','87483114',6318123,NULL,1,1,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(152,'animi36','36',21675,NULL,1,2,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(153,'eum8557511','8557511',70854272,NULL,0,2,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(154,'ullam58357','58357',17999855,NULL,0,1,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(155,'deserunt79414','79414',10,NULL,1,2,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(156,'aliquid1496076','1496076',69020370,NULL,0,1,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(157,'sit3881703','3881703',26836671,NULL,1,2,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(158,'sapiente1','1',614,NULL,1,1,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(159,'non2788','2788',1,NULL,1,1,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(160,'quidem32','32',88,NULL,1,1,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(161,'laborum14','14',732,NULL,0,1,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(162,'autem310','310',960895,NULL,1,2,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(163,'odit95403333','95403333',695,NULL,1,2,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(164,'ab6167188','6167188',71,NULL,0,1,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(165,'sunt95','95',428071701,NULL,0,1,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(166,'ut1769','1769',257,NULL,1,1,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(167,'quisquam84835','84835',83847074,NULL,0,1,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(168,'blanditiis8003','8003',8,NULL,0,2,NULL,NULL,'2019-03-19 11:08:11','2019-03-19 11:08:11'),(169,'ullam9887','9887',29204,NULL,0,2,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(170,'ut9079','9079',1319,NULL,0,1,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(171,'optio9','9',652,NULL,1,2,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(172,'incidunt3155941','3155941',8047969,NULL,0,2,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(173,'voluptates58362204','58362204',1397,NULL,0,2,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(174,'culpa1137169','1137169',74961305,NULL,0,1,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(175,'facilis53464','53464',9,NULL,1,2,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(176,'esse5','5',6063210,NULL,0,1,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(177,'possimus65140585','65140585',333,NULL,1,2,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(178,'dolores18','18',47,NULL,1,2,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(179,'assumenda86','86',18574082,NULL,1,1,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(180,'consequatur90616','90616',568,NULL,1,2,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(181,'et11','11',946,NULL,0,2,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(182,'quos2','2',208,NULL,1,2,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(183,'nemo33464','33464',4,NULL,1,1,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(184,'et762','762',888885,NULL,1,2,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(185,'quos45','45',45,NULL,0,1,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(186,'corporis2360011','2360011',4172,NULL,0,1,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(187,'minima90','90',1,NULL,1,1,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(188,'mollitia34812','34812',6193729,NULL,0,2,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(189,'nesciunt0','0',17,NULL,1,1,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(190,'sunt329','329',15394,NULL,0,1,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(191,'amet1705','1705',74,NULL,1,1,NULL,NULL,'2019-03-19 11:08:12','2019-03-19 11:08:12'),(192,'ut756638680','756638680',25462,NULL,1,2,NULL,NULL,'2019-03-19 11:08:13','2019-03-19 11:08:13'),(193,'rem2','2',1,NULL,0,2,NULL,NULL,'2019-03-19 11:08:13','2019-03-19 11:08:13'),(194,'libero62154','62154',0,NULL,0,1,NULL,NULL,'2019-03-19 11:08:13','2019-03-19 11:08:13'),(195,'at4739','4739',37,NULL,1,2,NULL,NULL,'2019-03-19 11:08:13','2019-03-19 11:08:13'),(196,'nulla89814886','89814886',86,NULL,0,1,NULL,NULL,'2019-03-19 11:08:13','2019-03-19 11:08:13'),(197,'unde60431','60431',463,NULL,1,1,NULL,NULL,'2019-03-19 11:08:13','2019-03-19 11:08:13'),(198,'et99','99',79,NULL,0,2,NULL,NULL,'2019-03-19 11:08:13','2019-03-19 11:08:13'),(199,'odit63','63',12457,NULL,1,1,NULL,NULL,'2019-03-19 11:08:13','2019-03-19 11:08:13'),(200,'nulla653465921','653465921',967,NULL,0,1,NULL,NULL,'2019-03-19 11:08:13','2019-03-19 11:08:13'),(201,'asperiores4164','4164',4,NULL,0,1,NULL,NULL,'2019-03-19 11:08:13','2019-03-19 11:08:13'),(202,'eius62','62',344,NULL,1,2,NULL,NULL,'2019-03-19 11:08:13','2019-03-19 11:08:13'),(203,'dfgdfg-rg','rg',0,234,0,3,NULL,NULL,'2019-03-20 04:31:51','2019-03-20 04:31:51'),(204,'dfgdfg-1112','1112',0,1212,0,3,NULL,'QtjcaTsCvrZya0ghlMg4.png','2019-03-21 12:13:10','2019-03-21 12:13:11'),(205,'dfgdfg-123','123',0,123,0,3,NULL,'1Q4KsdxNgvNIucQH6Qme.png','2019-03-21 12:25:44','2019-03-21 12:25:44'),(206,'dfgdfg-123','123',0,123,0,3,NULL,'wOINhqRnSCKjcskKJ9cQ.png','2019-03-21 12:25:55','2019-03-21 12:25:55'),(207,'dfgdfg-123','123',0,123,1,3,NULL,'P0RcDS6tLp2a3FAsTWF4.png','2019-03-21 12:28:20','2019-03-21 13:48:35'),(209,'tonkie-423','423',0,324,0,2,NULL,'hajAyrODHi5XqclrR1Hg.png','2019-03-21 15:32:24','2019-03-21 15:32:24');
+/*!40000 ALTER TABLE `products` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `size_product`
+--
+
+DROP TABLE IF EXISTS `size_product`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `size_product` (
+  `size_id` int(10) unsigned NOT NULL,
+  `product_id` int(10) unsigned NOT NULL,
+  KEY `size_product_size_id_foreign` (`size_id`),
+  KEY `size_product_product_id_foreign` (`product_id`),
+  CONSTRAINT `size_product_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `size_product_size_id_foreign` FOREIGN KEY (`size_id`) REFERENCES `sizes` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `size_product`
+--
+
+LOCK TABLES `size_product` WRITE;
+/*!40000 ALTER TABLE `size_product` DISABLE KEYS */;
+INSERT INTO `size_product` VALUES (1,2),(2,2),(1,204),(2,204),(1,205),(2,205),(1,206),(2,206),(1,207),(2,207);
+/*!40000 ALTER TABLE `size_product` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sizes`
+--
+
+DROP TABLE IF EXISTS `sizes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sizes` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sizes`
+--
+
+LOCK TABLES `sizes` WRITE;
+/*!40000 ALTER TABLE `sizes` DISABLE KEYS */;
+INSERT INTO `sizes` VALUES (1,'421412'),(2,'43t44t34t');
+/*!40000 ALTER TABLE `sizes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `password_token` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `role` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `verify_token` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`),
+  UNIQUE KEY `users_verify_token_unique` (`verify_token`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (NULL,3,'vlad',NULL,'admin','active','me@admin.com','bcbff4ec-fe9e-4af9-9487-f916c5599444','$2y$10$zjBOGHXB7.10Wl0tiYeCEebiuCnyj4hQzlpe7JsACpDtQYmkJBKYW','f958dhQKBh0klxa1URsCxOGGkEbHw43R8FAO9p0OQWSulnOueNIe3JnRHYG4','2019-03-10 05:30:06','2019-03-10 05:30:06'),('081460b1-21ce-4f77-a9bd-50bf5a63ca54',16,'dwq',NULL,'user','active','kve.gyglmail@gmail.com',NULL,'$2y$10$UANPfkDepJ6O7.PAHrVb0uVgjB57vHgue0M8r3JThl8Cgq6SAsDVO','STZCmmZ8qfAQkCn3kAgUfdLM2qQDXOCpIT66EpXMR88budvvQXVPldjTauev','2019-03-16 13:03:21','2019-03-16 13:04:56');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2019-03-24 21:35:31
